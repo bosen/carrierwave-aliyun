@@ -46,7 +46,7 @@ module CarrierWave
 
         @endpoint = "https://oss-#{self.region}.aliyuncs.com"
         @upload_endpoint = uploader.aliyun_internal == true ? "https://oss-#{self.region}-internal.aliyuncs.com" : @endpoint
-        @img_endpoint = "https://img-#{self.region}.aliyuncs.com"
+        @img_endpoint = "https://oss-#{self.region}.aliyuncs.com"
       end
 
       # 上传文件
@@ -132,9 +132,9 @@ module CarrierWave
         path = path.sub(PATH_PREFIX, "")
 
         url = if thumb
-                img_client.object_url([path, thumb].join(""), expiry: 15.minutes)
+                img_client.object_url([path, thumb].join(""))
               else
-                oss_client.object_url(path, expiry: 15.minutes)
+                oss_client.object_url(path)
               end
 
         url.sub("http://", "https://")
